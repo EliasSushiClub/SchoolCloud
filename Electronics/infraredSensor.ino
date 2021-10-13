@@ -10,6 +10,7 @@ void setup() {
     Serial.println("Start Speaking in 3 seconds:");
     for(int i=3; i=0; i--) {
       Serial.println(i);
+      delay(1000);
       }
     Serial.println("You have 10 seconds");
     digitalWrite(REC, 1);
