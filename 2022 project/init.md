@@ -1,5 +1,5 @@
 > Concept:
-Smart home security system for deaf and mute people with vibration and movement sensors all over windows and doors with a bluetooth module to send intruder alerts to the cliebt's phone.
+Smart home security system for deaf and mute people with vibration and movement sensors all over windows and doors with a bluetooth module to send intruder alerts to the client's phone.
 
 > Sensors:
 RFID to activate system,
