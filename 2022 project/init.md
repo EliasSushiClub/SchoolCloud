@@ -5,3 +5,4 @@ Smart home security system for deaf and mute people with vibration and movement 
 RFID to activate system,
 Infrared to signal movement,
 Vibration sensor to signal knocking on windows and doors.
+Speaker system to tell intruders to go away with pre-recorded sound files.
