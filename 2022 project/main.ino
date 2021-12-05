@@ -4,6 +4,7 @@ const int echoPin = 12;
 int vibPin=7;
 long duration;
 int distance;
+char accessCard = "";
 
 int vibrationSensor() {
     int result = digitalRead(vib_pin);
@@ -26,6 +27,11 @@ int ultrasonicSensor() {
     return distance
 }
 
+char rfid() {
+    //add RFID code and save card contents in var accessCard
+    return accessCard
+}
+
 void setup() {
     pinMode(trigPin, OUTPUT);
     pinMode(echoPin, INPUT);
@@ -35,14 +41,25 @@ void setup() {
 }
 
 void loop() {
-    int pir = pirSensor();
-    int vibSensor = vibrationSensor();
-    
-    if (pir == 1) {
-    int ultrasonic = ultrasonicSensor();
+    accessCard = rfid();
+    if (accessCard = content.substring(1)) {
+        while (1==1) {
+            int pir = pirSensor();
+            int vibSensor = vibrationSensor();
+            
+            if (pir == 1) {
+            int ultrasonic = ultrasonicSensor();
+            }
+
+            if (vibSensor == 1) {
+                //send bluetooth
+            }
+
+            delay(1000);
+        }
     }
 
-    if (vibSensor == 1) {
-        //send bluetooth
+    else {
+        delay(10000)
     }
 }
