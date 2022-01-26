@@ -1,19 +1,28 @@
+#include <SPI.h>
+#include <MFRC522.h>
+#define SS_PIN 10
+#define RS_PIN 9
+byte i, letter;
+char code = "";
+
 #define SOUT 12
 const int trigPin = 11;
 const int echoPin = 12;
-int vibPin=7;
 long duration;
 int distance;
+int vibPin = 7;
 char accessCard = "";
+char clientCode = "D6 58 08 F8"; //change
+MFRC522 mfrcs522(SS_PIN, RST_PIN);
 
 int vibrationSensor() {
     int result = digitalRead(vib_pin);
-    return result
+    return result;
 }
 
 int pirSensor() {
     int PIRresult = digitalRead(SOUT);    
-    return PIRresult
+    return PIRresult;
 }
 
 int ultrasonicSensor() {
@@ -24,12 +33,30 @@ int ultrasonicSensor() {
     digitalWrite(trigPin, LOW);
     duration = pulseIn(echoPin, HIGH);
     distance = duration*(0.034/2);
-    return distance
+    return distance;
 }
 
 char rfid() {
-    //add RFID code and save card contents in var accessCard
-    return accessCard
+    if (!mfrcc522.PICC_IsNewCardPresent()) {return;}
+    if (!mfrc522.ReadCardSerial()) {return;}
+    
+    for (int i = 0; i<mfrc522.uid.size; i++) {
+        if (mfrc522.uid.uidByte[i] < 0x10) {
+            Serial.print(" 0");
+        } else {
+            Serial.print(" ");
+        }
+
+        Serial.print(mfrc522.uid.uidByte[i], HEX);
+
+        code.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
+        code.concat(String(mfrc522.uid.uidByte[i], HEX));
+
+        code.toUpperCase();
+        accessCard = code.substring(1);
+    }
+    
+    return accessCard;
 }
 
 void setup() {
@@ -37,12 +64,16 @@ void setup() {
     pinMode(echoPin, INPUT);
     pinMode(SOUT, INPUT);
     pinMode(vibPin, INPUT);
-    Serial.begin(9600)
+    Serial.begin(9600);
+    SPI.begin();
+    mfrc522.PCD_init();
 }
 
 void loop() {
+    delay(5000);
     accessCard = rfid();
-    if (accessCard = content.substring(1)) {
+    if (accessCard == clientCode) {
+        delay(10000)
         while (1==1) {
             int pir = pirSensor();
             int vibSensor = vibrationSensor();
@@ -55,11 +86,18 @@ void loop() {
                 //send bluetooth
             }
 
+            if (mfrcc522.PICC_IsNewCardPresent()) {
+                accessCard = rfid();
+                if (accessCard == clientCode) {
+                    break;
+                }
+            }
+
             delay(1000);
         }
     }
 
     else {
-        delay(10000)
+        delay(5000)
     }
 }
