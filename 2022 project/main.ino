@@ -1,19 +1,19 @@
 #include <SPI.h>
 #include <MFRC522.h>
 #define SS_PIN 10
-#define RS_PIN 9
+#define RST_PIN 9
 byte i, letter;
-char code = "";
+String code = "";
 
-#define SOUT 12
-const int trigPin = 11;
-const int echoPin = 12;
+#define SOUT 3
+const int trigPin = 4;
+const int echoPin = 5;
 long duration;
 int distance;
 int vibPin = 7;
-char accessCard = "";
-char clientCode = "D6 58 08 F8"; //change
-MFRC522 mfrcs522(SS_PIN, RST_PIN);
+String accessCard = "";
+String clientCode = "69 DE 28 A469 DE 28 A4";
+MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 int vibrationSensor() {
     int result = digitalRead(vib_pin);
@@ -36,9 +36,9 @@ int ultrasonicSensor() {
     return distance;
 }
 
-char rfid() {
-    if (!mfrcc522.PICC_IsNewCardPresent()) {return;}
-    if (!mfrc522.ReadCardSerial()) {return;}
+String rfid() {
+    if (!mfrc522.PICC_IsNewCardPresent()) {return;}
+    if (!mfrc522.PICC_ReadCardSerial()) {return;}
     
     for (int i = 0; i<mfrc522.uid.size; i++) {
         if (mfrc522.uid.uidByte[i] < 0x10) {
@@ -66,7 +66,7 @@ void setup() {
     pinMode(vibPin, INPUT);
     Serial.begin(9600);
     SPI.begin();
-    mfrc522.PCD_init();
+    mfrc522.PCD_Init();
 }
 
 void loop() {
