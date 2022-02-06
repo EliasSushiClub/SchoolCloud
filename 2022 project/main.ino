@@ -1,5 +1,7 @@
+#include <Arduino.h>
 #include <SPI.h>
 #include <MFRC522.h>
+#include <Hash.h>
 #define SS_PIN 10
 #define RST_PIN 9
 byte i, letter;
@@ -12,7 +14,7 @@ long duration;
 int distance;
 int vibPin = 7;
 String accessCard = "";
-String clientCode = "69 DE 28 A469 DE 28 A4";
+String clientHash = sha1("69 DE 28 A469 DE 28 A4"); #get actual hash and replace calling the function in order to mask original client code
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 int vibrationSensor() {
@@ -72,7 +74,7 @@ void setup() {
 void loop() {
     delay(5000);
     accessCard = rfid();
-    if (accessCard == clientCode) {
+    if (sha1(accessCard) == clientCode) {
         delay(10000)
         while (1==1) {
             int pir = pirSensor();
