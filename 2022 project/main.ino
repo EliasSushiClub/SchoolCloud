@@ -1,7 +1,5 @@
-#include <Arduino.h>
 #include <SPI.h>
 #include <MFRC522.h>
-#include <Hash.h>
 #define SS_PIN 10
 #define RST_PIN 9
 byte i, letter;
@@ -16,15 +14,6 @@ int vibPin = 7;
 String accessCard = "";
 String clientHash = "f6663cd2cba3a6e960e5522866e721c2"
 MFRC522 mfrc522(SS_PIN, RST_PIN);
-
-String md5Hash(String hashInput) {
-    unsigned char* hash=MD5::make_hash(hashInput);
-    char *md5str = MD5::make_digest(hash, 16);
-    free(hash);
-    while(!Serial);
-    return md5str;
-    //free(md5str);
-}
 
 int vibrationSensor() {
     int result = digitalRead(vib_pin);
