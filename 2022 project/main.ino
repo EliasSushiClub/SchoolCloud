@@ -14,8 +14,17 @@ long duration;
 int distance;
 int vibPin = 7;
 String accessCard = "";
-String clientHash = sha1("69 DE 28 A469 DE 28 A4"); #get actual hash and replace calling the function in order to mask original client code
+String clientHash = "f6663cd2cba3a6e960e5522866e721c2"
 MFRC522 mfrc522(SS_PIN, RST_PIN);
+
+String md5Hash(String hashInput) {
+    unsigned char* hash=MD5::make_hash(hashInput);
+    char *md5str = MD5::make_digest(hash, 16);
+    free(hash);
+    while(!Serial);
+    return md5str;
+    //free(md5str);
+}
 
 int vibrationSensor() {
     int result = digitalRead(vib_pin);
@@ -74,7 +83,7 @@ void setup() {
 void loop() {
     delay(5000);
     accessCard = rfid();
-    if (sha1(accessCard) == clientCode) {
+    if (md5Hash(accessCard) == clientCode) {
         delay(10000)
         while (1==1) {
             int pir = pirSensor();
