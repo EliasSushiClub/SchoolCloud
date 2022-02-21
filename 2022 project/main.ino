@@ -12,7 +12,7 @@ long duration;
 int distance;
 int vibPin = 7;
 String accessCard = "";
-String clientHash = "f6663cd2cba3a6e960e5522866e721c2"
+String clientHash = "f6663cd2cba3a6e960e5522866e721c2";
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 int vibrationSensor() {
@@ -72,23 +72,24 @@ void setup() {
 void loop() {
     delay(5000);
     accessCard = rfid();
-    if (md5Hash(accessCard) == clientCode) {
+    if (md5Hash(accessCard) == clientHash) {
         delay(10000)
         while (1==1) {
             int pir = pirSensor();
             int vibSensor = vibrationSensor();
             
             if (pir == 1) {
-            int ultrasonic = ultrasonicSensor();
+                int ultrasonic = ultrasonicSensor();
+                //send bluetooth notif
             }
 
             if (vibSensor == 1) {
-                //send bluetooth
+                //send bluetooth notif
             }
 
             if (mfrcc522.PICC_IsNewCardPresent()) {
                 accessCard = rfid();
-                if (accessCard == clientCode) {
+                if (md5Hash(accessCard) == clientHash) {
                     break;
                 }
             }
