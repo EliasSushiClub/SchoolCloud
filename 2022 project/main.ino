@@ -1,5 +1,7 @@
+#include <SoftwareSerial.h>
 #include <SPI.h>
 #include <MFRC522.h>
+
 #define SS_PIN 10
 #define RST_PIN 9
 byte i, letter;
