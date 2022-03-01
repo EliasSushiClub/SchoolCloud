@@ -1,6 +1,9 @@
 #include <SoftwareSerial.h>
+#include <Wire.h>
 #include <SPI.h>
 #include <MFRC522.h>
+
+SoftwareSerial BTserial(2,4);
 
 #define SS_PIN 10
 #define RST_PIN 9
@@ -16,6 +19,10 @@ int vibPin = 7;
 String accessCard = "";
 String clientHash = "f6663cd2cba3a6e960e5522866e721c2";
 MFRC522 mfrc522(SS_PIN, RST_PIN);
+
+void bluetooth(String notif) {
+    BTserial.write(notif);
+}
 
 int vibrationSensor() {
     int result = digitalRead(vib_pin);
@@ -66,6 +73,7 @@ void setup() {
     pinMode(echoPin, INPUT);
     pinMode(SOUT, INPUT);
     pinMode(vibPin, INPUT);
+    BTserial.begin(9600);
     Serial.begin(9600);
     SPI.begin();
     mfrc522.PCD_Init();
@@ -82,11 +90,11 @@ void loop() {
             
             if (pir == 1) {
                 int ultrasonic = ultrasonicSensor();
-                //send bluetooth notif
+                bluetooth("Alert");
             }
 
             if (vibSensor == 1) {
-                //send bluetooth notif
+                bluetooth("Alert");
             }
 
             if (mfrcc522.PICC_IsNewCardPresent()) {
