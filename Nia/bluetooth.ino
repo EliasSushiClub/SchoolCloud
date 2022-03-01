@@ -2,7 +2,7 @@
 #define LED1  13
 #define LED2  3
 int i,val = 0;
-SoftwareSerial BT(4, 2); // RX, TX
+SoftwareSerial BT(2, 4); // RX, TX
 void setup() {
   BT.begin(9600);
   pinMode(LED1, OUTPUT);
