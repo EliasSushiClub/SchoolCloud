@@ -16,6 +16,9 @@ const int echoPin = 5;
 long duration;
 int distance;
 int vibPin = 7;
+float ultrasonic = 0;
+float currentDistance = 0;
+String systemState = "";
 String accessCard = "";
 String clientHash = "f6663cd2cba3a6e960e5522866e721c2";
 MFRC522 mfrc522(SS_PIN, RST_PIN);
@@ -85,21 +88,32 @@ void loop() {
     if (md5Hash(accessCard) == clientHash) {
         delay(10000)
         while (1==1) {
-            int pir = pirSensor();
-            int vibSensor = vibrationSensor();
             
-            if (pir == 1) {
-                int ultrasonic = ultrasonicSensor();
-                bluetooth("Alert");
+            if (pirSensor() == 1) {
+                ultrasonic = ultrasonicSensor();
+                while (ultrasonicSensor() != 0) {
+                    currentDistance = ultrasonicSensor();
+                    if (currentDistance < ultrasonic) {
+                        BTserial.write("OBJECT APPROACHING THE DOOR:", currentDistance);
+                    }
+                    
+                    else {
+                        BTserial.write("NON THREATENING OBJECT SPOTTED");
+                    }
+                    
+                    ultraSonic = currentDistance();
+                }
             }
 
-            if (vibSensor == 1) {
-                bluetooth("Alert");
+            if (vibrationSensor() == 1) {
+                bluetooth("INTRUDER ALERT!");
             }
 
-            if (mfrcc522.PICC_IsNewCardPresent()) {
+            if (mfrcc522.PICC_IsNewCardPresent()) || BTserial.available() {
                 accessCard = rfid();
-                if (md5Hash(accessCard) == clientHash) {
+                systemState = BTserial.read();
+                systemState = systemState.toUpperCase();
+                if ((md5Hash(accessCard) == clientHash) || systemState == "TURN OFF") {
                     break;
                 }
             }
