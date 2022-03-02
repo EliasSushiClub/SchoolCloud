@@ -7,7 +7,6 @@ void setup() {
 }
 
 void loop() {
-
   temp_adc_val = analogRead(lm35_pin);
   temp_val = (temp_adc_val * 4.88);
   temp_val = (temp_val/10);

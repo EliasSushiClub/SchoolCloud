@@ -11,8 +11,8 @@ byte i, letter;
 String code = "";
 
 #define SOUT 3
-const int trigPin = 4;
-const int echoPin = 5;
+const int trigPin = 5;
+const int echoPin = 6;
 long duration;
 int distance;
 int vibPin = 7;

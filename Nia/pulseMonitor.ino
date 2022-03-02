@@ -1,4 +1,4 @@
-int ledPin = 13;
+int ledPin = A0;
 int sensorPin = 0;
 double alpha = 0.75;
 int period = 20;
