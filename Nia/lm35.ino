@@ -1,18 +1,18 @@
-int val;
-int tempPin = 1;
+const int lm35_pin = A1;
+int temp_adc_val;
+float temp_val;
 
 void setup() {
   Serial.begin(9600);
 }
 
 void loop() {
-  val = analogRead(tempPin);
-  float mv = ( val/1024.0)*5000;
-  float cel = mv/10;
-  float farh = (cel*9)/5 + 32;
-  Serial.print("TEMPRATURE = ");
-  Serial.print(cel);
-  Serial.print("*C");
-  Serial.println();
+
+  temp_adc_val = analogRead(lm35_pin);
+  temp_val = (temp_adc_val * 4.88);
+  temp_val = (temp_val/10);
+  Serial.print("Temperature = ");
+  Serial.print(temp_val);
+  Serial.print(" Degree Celsius\n");
   delay(1000);
 }
