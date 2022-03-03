@@ -109,7 +109,7 @@ void setup() {
 }
 
 void loop() {
-    delay(5000)
+    delay(5000);
     if (rfid() == clientCode) {
         while (1==1) {
             if (USS() < 20) {
