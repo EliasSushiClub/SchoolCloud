@@ -35,7 +35,7 @@ double alpha = 0.75;
 double change = 0.0;
 double pulseResult = 0;
 
-int DIN = 10, CS = 9, CLK = 8, y = 0, x = 0;
+int DIN = 6, CS = 5, CLK = 1, y = 0, x = 0;
 byte heart[8][8] = {
   {0,0,0,0,0,0,0,0},
   {0,1,1,0,0,1,1,0},
