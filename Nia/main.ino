@@ -3,6 +3,7 @@
 #include <SPI.h>
 #include <MFRC522.h>
 #include <LiquidCrystal_I2C.h>
+#include <LedControl.h>
 
 SoftwareSerial BTserial(2,4);
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -34,7 +35,31 @@ double alpha = 0.75;
 double change = 0.0;
 double pulseResult = 0;
 
+int DIN = 10, CS = 9, CLK = 8, y = 0, x = 0;
+byte heart[8][8] = {
+  {0,0,0,0,0,0,0,0},
+  {0,1,1,0,0,1,1,0},
+  {1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1},
+  {1,1,1,1,1,1,1,1},
+  {0,1,1,1,1,1,1,0},
+  {0,0,1,1,1,1,0,0},
+  {0,0,0,1,1,0,0,0}};
 
+
+void heartControl() {
+    for (y=0; y<8; y++) {
+    for (x=7; x>=0; x--) {
+      lc.setLed(0,y,x,heart[y][x]);
+      if (heart[y][x]==1){
+        delay();
+      }
+      }
+      x=0;
+    }
+    delay(5000);
+    lc.clearDisplay(0);
+}
 void bluetooth(String notif) {
     BTserial.write(notif);
 }
@@ -103,9 +128,13 @@ double pulseMonitor() {
 
 
 void setup() {
+    Serial.begin(9600);
     pinMode(ledPin, OUTPUT);
     lcd.init();
     lcd.backlight();
+    lc.shutdown(0,false);
+    lc.setIntensity(0,15);
+    lc.clearDisplay(0);
 }
 
 void loop() {
@@ -116,6 +145,7 @@ void loop() {
                 if (PIR() == 1) {
                     delay(2000);
                     pulseResult = pulseMonitor();
+                    heartControl();
                 }
 
                 lcd.setCursor(2, 0);
