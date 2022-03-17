@@ -46,6 +46,16 @@ byte heart[8][8] = {
   {0,0,1,1,1,1,0,0},
   {0,0,0,1,1,0,0,0}};
 
+byte badToken[8][8] = {
+  {1,0,0,0,0,0,0,1},
+  {0,1,0,0,0,0,1,0},
+  {0,0,1,0,0,1,0,0},
+  {0,0,0,1,1,0,0,0},
+  {0,0,0,1,1,0,0,0},
+  {0,0,1,0,0,1,0,0},
+  {0,1,0,0,0,0,1,0},
+  {1,0,0,0,0,0,0,1}};
+
 
 void heartControl() {
     for (y=0; y<8; y++) {
@@ -60,6 +70,21 @@ void heartControl() {
     delay(5000);
     lc.clearDisplay(0);
 }
+
+void errorControl() {
+    for (y=0; y<8; y++) {
+    for (x=7; x>=0; x--) {
+      lc.setLed(0,y,x,badToken[y][x]);
+      if (badToken[y][x]==1){
+        delay();
+      }
+      }
+      x=0;
+    }
+    delay(2000);
+    lc.clearDisplay(0);
+}
+
 void bluetooth(String notif) {
     BTserial.write(notif);
 }
@@ -168,4 +193,8 @@ void loop() {
             }
         }
     }
+  
+  else {
+  
+  }
 }
