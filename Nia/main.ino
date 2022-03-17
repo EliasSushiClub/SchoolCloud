@@ -194,7 +194,11 @@ void loop() {
         }
     }
   
-  else {
-  
-  }
+    else {
+        lcd.setCursor(2, 0);
+        lcd.print("You don't have authorized access to this device");
+        errorControl();
+        delay(2000);
+        lcd.clear();
+    }
 }
