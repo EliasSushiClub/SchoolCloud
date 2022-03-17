@@ -62,7 +62,7 @@ void heartControl() {
     for (x=7; x>=0; x--) {
       lc.setLed(0,y,x,heart[y][x]);
       if (heart[y][x]==1){
-        delay();
+        delay(150);
       }
       }
       x=0;
@@ -76,7 +76,7 @@ void errorControl() {
     for (x=7; x>=0; x--) {
       lc.setLed(0,y,x,badToken[y][x]);
       if (badToken[y][x]==1){
-        delay();
+        delay(100);
       }
       }
       x=0;
