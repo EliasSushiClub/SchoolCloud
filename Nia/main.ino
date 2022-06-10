@@ -30,9 +30,8 @@ int distance;
 float currentDistance = 0;
 
 int ledPin = A0;
-int sensorPin = 0;
 double alpha = 0.75;
-double change = 0.0;
+int period = 20;
 double pulseResult = 0;
 
 int DIN = 6, CS = 5, CLK = 1, y = 0, x = 0;
@@ -141,15 +140,14 @@ float lm35() {
 double pulseMonitor() {
     static double oldValue = 0;
     static double oldChange = 0;
-    int rawValue = analogRead(sensorPin);
+    int rawValue = analogRead(ledPin);
     double value = alpha * oldValue + (1 - alpha) * rawValue;
     Serial.print(rawValue);
     Serial.print(",");
     Serial.println(value);
     oldValue = value;
-    return value;
+    delay(period*10);
 }
-
 
 
 void setup() {
