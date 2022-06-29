@@ -123,6 +123,6 @@ void loop() {
     }
 
     else {
-        delay(5000)
+        delay(4206.9)
     }
 }
